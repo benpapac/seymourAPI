@@ -1,0 +1,90 @@
+const typeDefs = `
+
+type AuthPayload {
+	token: String
+	user: User
+}
+
+type Query {
+	actors(skip: Int, take: Int, filter: String): [Actor!]!
+	testimonials(skip: Int, take: Int, filter: String): [Testimonial!]!
+	users: [User!]!
+}
+
+type Mutation {
+	#user
+	signup(name: String!, email: String!, password: String!): AuthPayload
+	login(email: String!, password: String!): AuthPayload
+	updateUser(name: String, email: String, password: String): User!
+	deleteUser: User!
+	# actor
+	newActor(
+		name: String!,
+		 img: String!, 
+		 alt: String, 
+		 imdb: String, 
+		 bio: String! 
+		 ): Actor!
+		 
+	updateActor(
+		id: ID!
+		name: String
+		img: String
+		alt: String
+		imdb: String
+		bio: String
+	): Actor!
+
+	deleteActor(id: ID! ): Actor!
+	deleteActors: Int
+
+	#testimonial
+	newTestimonial(
+		id: ID!
+		name: String!,
+		occupation: String,
+		testimonial: String!
+		): Testimonial!
+
+	updateTestimonial(
+		name: String!,
+		occupation: String,
+		testimonial: String!
+	): Testimonial!
+
+	deleteTestimonial( id: ID!): Testimonial!
+}
+
+type User {
+	id: ID!
+	name: String!
+	email: String!
+
+	testimonials: [Testimonial!]!
+	actors: [Actor!]!
+}
+
+type Actor {
+	id: ID!
+	name: String!
+	img: String!
+	alt: String
+	imdb: String
+	bio: String!
+
+	postedBy: User
+}
+
+type Testimonial {
+	id: ID!
+	name: String!
+	occupation: String
+	testimonial: String!
+
+	postedBy: User
+}
+`
+
+module.exports = {
+	typeDefs,
+}

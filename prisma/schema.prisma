@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  // mongodb
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  //sqlite
+  // id Int @id @default(autoincrement())
+
+  name         String
+  email        String        @unique
+  password     String
+  actors       Actor[]
+  testimonials Testimonial[]
+}
+
+model Actor {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // id   Int    @id @default(autoincrement())
+  name String
+  img  String
+  alt  String
+  imdb String
+  bio  String
+  //focus     String // need to plan how focuses will work. Think it'll be a FE deal.
+
+  //reational
+  postedBy   User? @relation(fields: [postedById], references: [id])
+  postedById String?
+}
+
+model Testimonial {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // id         Int    @id @default(autoincrement())
+  name       String
+  occupation String
+  copy       String
+  //focus needs to be reworked for FE
+
+  //relational
+  postedBy   User? @relation(fields: [postedById], references: [id])
+  postedById String?
+}

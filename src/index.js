@@ -3,6 +3,7 @@ const { ApolloServer } = require('apollo-server');
 // const { path } = require('path');
 const { getUserId } = require('./utils');
 const { PrismaClient } = require('@prisma/client');
+const cors = require('cors');
 
 
 const defs = require('./schema.graphql'); //import graphql
@@ -14,6 +15,7 @@ const Testimonial = require('./resolvers/Testimonial');
 
 const prisma = new PrismaClient();
 
+
 const resolvers = {
 	Query,
 	Mutation,
@@ -24,15 +26,17 @@ const resolvers = {
 
 const typeDefs = defs.typeDefs;
 
+const corsOptions = {
+    origin: ["https:/www.lgmanagement.org", "https://studio.apollographql.com"],
+	credentials: true,
+}
+
 const server = new ApolloServer({
 	// typeDefs: fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8'),
 	typeDefs,
 	resolvers,
 	csrfPrevention: true,
-	cors: {
-    origin: ["https:/www.lgmanagement.org", "https://studio.apollographql.com"]
-  },
-  credentials: true,
+	
 	context: ({ req }) => {
 		return {
 			...req,
@@ -41,6 +45,7 @@ const server = new ApolloServer({
 		};
 	},
 });
+
 
 server
 	.listen({ port: process.env.PORT || 4000 })

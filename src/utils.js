@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const secret = process.env.SECRET;
+const secret = process.env.APP_SECRET;
 
 const getTokenPayload = (token) => {
 	return jwt.verify(token, secret);

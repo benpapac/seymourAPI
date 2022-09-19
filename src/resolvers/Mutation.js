@@ -2,9 +2,7 @@ const { prisma } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { actors } = require('./Query');
-require('dotenv').config();
-
-const secret = process.env.SECRET;
+const { secret, getUerId } = require('../utils');
 
 //user
 const signup = async (parents, args, context) => {

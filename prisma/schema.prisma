@@ -43,9 +43,9 @@ model Testimonial {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // id         Int    @id @default(autoincrement())
-  name       String
-  occupation String
-  copy       String
+  name        String
+  occupation  String
+  testimonial String
   //focus needs to be reworked for FE
 
   //relational

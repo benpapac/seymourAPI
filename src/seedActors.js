@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-const main = async (parent, args, context) => {
+const main = async () => {
 	const ben = await prisma.actor.create({
 		data: {
 			name: 'Ben Papac',
@@ -48,6 +48,6 @@ main()
 	.catch((e) => {
 		throw e;
 	})
-	.finally(async (parent, args, context) => {
+	.finally(async () => {
 		await prisma.$disconnect();
 	});

@@ -27,7 +27,7 @@ const resolvers = {
 const typeDefs = defs.typeDefs;
 
 const corsOptions = {
-    origin: ["https:/www.lgmanagement.org", "https://studio.apollographql.com"],
+    origin: ["https:/www.lgmanagement.org", "https://studio.apollographql.com", "http:/localhost:3000"],
 	credentials: true,
 }
 

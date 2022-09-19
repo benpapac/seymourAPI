@@ -71,30 +71,30 @@ const deleteUser = async (parent, args, context) => {
 
 //actor
 const newActor = async (parent, args, context) => {
-	const { userId } = context;
-	if (!userId)
-		throw new Error('please log in to make changes to the database.');
+	// const { userId } = context;
+	// if (!userId)
+	// 	throw new Error('please log in to make changes to the database.');
 
 	const newActor = context.prisma.actor.create({
 		data: {
 			...args,
-			postedBy: { connect: { id: userId } },
+			// postedBy: { connect: { id: userId } },
 		},
 	});
 	return newActor;
 };
 
 const updateActor = async (parent, args, context) => {
-	const { userId } = context;
-	if (!userId)
-		throw new Error('please log in to make changes to the database.');
+	// const { userId } = context;
+	// if (!userId)
+	// 	throw new Error('please log in to make changes to the database.');
 
 	const actor = context.prisma.actor.update(
 		{ where: { id: args.id } },
 		{
 			data: {
 				...args,
-				postedBy: { connect: { id: userId } },
+				// postedBy: { connect: { id: userId } },
 			},
 		}
 	);
@@ -103,18 +103,18 @@ const updateActor = async (parent, args, context) => {
 };
 
 const deleteActor = async (parent, args, context) => {
-	const { userId } = context;
-	if (!userId)
-		throw new Error('please log in to make changes to the database.');
+	// const { userId } = context;
+	// if (!userId)
+	// 	throw new Error('please log in to make changes to the database.');
 
 	const actor = context.prisma.actor.delete({ where: { id: args.id } });
 	return actor;
 };
 
 const deleteActors = async (parent, args, context) => {
-	const { userId } = context;
-	if (!userId)
-		throw new Error('please log in to make changes to the database.');
+	// const { userId } = context;
+	// if (!userId)
+	// 	throw new Error('please log in to make changes to the database.');
 
 	const actors = context.prisma.actor.deleteMany();
 	return actors.count;
@@ -122,30 +122,30 @@ const deleteActors = async (parent, args, context) => {
 
 //testimonial
 const newTestimonial = async (parent, args, context) => {
-	const { userId } = context;
-	if (!userId)
-		throw new Error('please log in to make changes to the database.');
+	// const { userId } = context;
+	// if (!userId)
+	// 	throw new Error('please log in to make changes to the database.');
 
 	const newTestimonial = context.prisma.testimonial.create({
 		data: {
 			...args,
-			postedBy: { connect: { id: userId } },
+			// postedBy: { connect: { id: userId } },
 		},
 	});
 	return newTestimonial;
 };
 
 const updateTestimonial = async (parent, args, context) => {
-	const { userId } = context;
-	if (!userId)
-		throw new Error('please log in to make changes to the database.');
+	// const { userId } = context;
+	// if (!userId)
+	// 	throw new Error('please log in to make changes to the database.');
 
 	const testimonial = context.prisma.testimonial.update(
 		{ where: { id: args.id } },
 		{
 			data: {
 				...args,
-				postedBy: { connect: { id: userId } },
+			// 	postedBy: { connect: { id: userId } },
 			},
 		}
 	);
@@ -154,9 +154,9 @@ const updateTestimonial = async (parent, args, context) => {
 };
 
 const deleteTestimonial = async (parent, args, context) => {
-	const { userId } = context;
-	if (!userId)
-		throw new Error('please log in to make changes to the database.');
+	// const { userId } = context;
+	// if (!userId)
+	// 	throw new Error('please log in to make changes to the database.');
 
 	const testimonial = context.prisma.testimonial.delete({
 		where: { id: args.id },

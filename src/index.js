@@ -3,7 +3,7 @@ const { ApolloServer } = require('apollo-server');
 // const { path } = require('path');
 const { getUserId } = require('./utils');
 const { PrismaClient } = require('@prisma/client');
-const cors = require('cors');
+// const cors = require('cors');
 
 
 const defs = require('./schema.graphql'); //import graphql
@@ -36,7 +36,7 @@ const server = new ApolloServer({
 	typeDefs,
 	resolvers,
 	csrfPrevention: true,
-	
+	//cors: corsOptions,
 	context: ({ req }) => {
 		return {
 			...req,

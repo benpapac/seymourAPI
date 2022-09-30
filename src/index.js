@@ -43,6 +43,7 @@ const server = new ApolloServer({
 
 	context: ({ req }) => {
 		const userId = req && req.headers.authorization ? getUserId(req) : null;
+		// const headers = req && req.headers;
 		return {
 			...req,
 			prisma,

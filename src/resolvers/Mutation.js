@@ -44,6 +44,7 @@ const login = async (parent, args, context) => {
 const updateUser = async (parent, args, context) => {
 	const { userId } = context;
 	if (!userId) throw Error('Please log in');
+	console.log(context.headers.id);
 
 	const user = await context.prisma.user.update({
 		where: { id: userId },
@@ -88,11 +89,9 @@ const updateActor = async (parent, args, context) => {
 	const { userId } = context;
 	if (!userId) throw Error('Please log in');
 
-	console.log(args);
-
 	const actor = context.prisma.actor.update(
 		{
-		where: { id: context.headers.id },
+		where: { id: args.id },
 		data: {
 			...args,
 			// name: args.name,

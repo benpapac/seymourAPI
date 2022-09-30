@@ -7,6 +7,7 @@ type AuthPayload {
 
 type Query {
 	actors(skip: Int, take: Int, filter: String): [Actor!]!
+	actor(id: ID!): Actor!
 	testimonials(skip: Int, take: Int, filter: String): [Testimonial!]!
 	users: [User!]!
 }

@@ -13,6 +13,13 @@ const actors = async (parent, args, context, info) => {
 	return actors;
 };
 
+const actor = async (parent, args, context, info) => {
+	const actor = await context.prisma.actor.findUnique({
+		where: { id: args.actorId }
+	});
+	return actor;
+}
+
 const testimonials = async (parent, args, context, info) => {
 	const where = args.filter
 		? {
@@ -33,6 +40,7 @@ const users = async (parent, args, context, info) => {
 
 module.exports = {
 	actors,
+	actor,
 	testimonials,
 	users,
 };

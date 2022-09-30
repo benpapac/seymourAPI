@@ -112,7 +112,7 @@ const deleteActor = async (parent, args, context) => {
 	const { userId } = context;
 	if (!userId) throw Error('Please log in');
 
-	const actor = context.prisma.actor.delete({ where: { id: args.id } });
+	const actor = context.prisma.actor.delete({ where: { id: context.headers.id } });
 	return actor;
 };
 
@@ -140,7 +140,7 @@ const updateTestimonial = async (parent, args, context) => {
 	if (!userId) throw Error('Please log in');
 
 	const testimonial = context.prisma.testimonial.update({
-		where: { id: args.id },
+		where: { id: context.headers.id },
 		data: {
 			...args,
 			postedBy: { connect: { id: userId } },
@@ -155,7 +155,7 @@ const deleteTestimonial = async (parent, args, context) => {
 	if (!userId) throw Error('Please log in');
 
 	const testimonial = context.prisma.testimonial.delete({
-		where: { id: args.id },
+		where: { id: context.headers.id },
 	});
 	return testimonial;
 };

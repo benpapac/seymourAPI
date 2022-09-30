@@ -15,7 +15,7 @@ const actors = async (parent, args, context, info) => {
 
 const actor = async (parent, args, context, info) => {
 	const actor = await context.prisma.actor.findUnique({
-		where: { id: args.actorId }
+		where: { id: args.id }
 	});
 	return actor;
 }

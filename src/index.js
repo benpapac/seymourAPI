@@ -1,7 +1,7 @@
 const { ApolloServer } = require('apollo-server');
 // const { fs } = require('fs');
 // const { path } = require('path');
-const { getUserId } = require('./utils');
+const { getUser, getUserId } = require('./utils');
 const { PrismaClient } = require('@prisma/client');
 // const cors = require('cors');
 
@@ -39,11 +39,14 @@ const server = new ApolloServer({
 	resolvers,
 	csrfPrevention: true,
 	//cors: corsOptions,
+
+
 	context: ({ req }) => {
+		const userId = req && req.headers.authorization ? getUserId(req) : null;
 		return {
 			...req,
 			prisma,
-			userId: req && req.headers.authorization ? getUserId(req) : null,
+			userId: userId,
 		};
 	},
 });

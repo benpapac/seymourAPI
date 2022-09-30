@@ -1,4 +1,7 @@
 const actors = async (parent, args, context, info) => {
+	const { userId } = context;
+		if (!userId) throw Error('Please log in');
+
 	const where = args.filter
 		? {
 				OR: [
@@ -13,6 +16,10 @@ const actors = async (parent, args, context, info) => {
 };
 
 const testimonials = async (parent, args, context, info) => {
+	const { userId } = context;
+		if (!userId) throw Error('Please log in');
+
+
 	const where = args.filter
 		? {
 				OR: [

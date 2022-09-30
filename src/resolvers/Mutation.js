@@ -93,12 +93,12 @@ const updateActor = async (parent, args, context) => {
 	const actor = context.prisma.actor.update({
 		where: { id: args.id },
 		data: {
-			// ...args,
-			name: args.name,
-			img: args.img,
-			alt: args.alt,
-			imdb: args.imdb,
-			bio: args.bio,
+			...args,
+			// name: args.name,
+			// img: args.img,
+			// alt: args.alt,
+			// imdb: args.imdb,
+			// bio: args.bio,
 
 			postedBy: { connect: { id: userId } },
 		},

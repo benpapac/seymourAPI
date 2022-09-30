@@ -90,8 +90,9 @@ const updateActor = async (parent, args, context) => {
 
 	console.log(args);
 
-	const actor = context.prisma.actor.update({
-		where: { id: args.id },
+	const actor = context.prisma.actor.update(
+		{
+		where: { id: context.headers.id },
 		data: {
 			...args,
 			// name: args.name,

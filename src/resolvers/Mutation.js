@@ -89,16 +89,15 @@ const updateActor = async (parent, args, context) => {
 	const { userId } = context;
 	if (!userId) throw Error('Please log in');
 
-	const actor = context.prisma.actor.update(
-		{
+	const actor = context.prisma.actor.update({
 		where: { id: args.id },
 		data: {
-			...args,
-			// name: args.name,
-			// img: args.img,
-			// alt: args.alt,
-			// imdb: args.imdb,
-			// bio: args.bio,
+			// ...args,
+			name: args.name,
+			img: args.img,
+			alt: args.alt,
+			imdb: args.imdb,
+			bio: args.bio,
 
 			postedBy: { connect: { id: userId } },
 		},
@@ -111,7 +110,9 @@ const deleteActor = async (parent, args, context) => {
 	const { userId } = context;
 	if (!userId) throw Error('Please log in');
 
-	const actor = context.prisma.actor.delete({ where: { id: context.headers.id } });
+	const actor = context.prisma.actor.delete({
+		where: { id: context.headers.id },
+	});
 	return actor;
 };
 

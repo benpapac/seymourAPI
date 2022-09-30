@@ -9,7 +9,7 @@ const getTokenPayload = (token) => {
 const getUserId = (req, authToken) => {
 	if (req) {
 		const authHeader = req.headers.authorization;
-
+		
 		const token = authHeader.replace('Bearer ', '');
 		if (!token) {
 			throw new Error('No token found');

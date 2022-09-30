@@ -43,8 +43,7 @@ const login = async (parent, args, context) => {
 
 const updateUser = async (parent, args, context) => {
 	const { userId } = context;
-		if (!userId) throw Error('Please log in');
-
+	if (!userId) throw Error('Please log in');
 
 	const user = await context.prisma.user.update({
 		where: { id: userId },
@@ -57,9 +56,7 @@ const updateUser = async (parent, args, context) => {
 
 const deleteUser = async (parent, args, context) => {
 	const { userId } = context;
-		if (!userId) throw Error('Please log in');
-
-
+	if (!userId) throw Error('Please log in');
 
 	const actors = await context.prisma.actor.deleteMany({
 		where: { postedBy: { id: userId } },
@@ -76,9 +73,7 @@ const deleteUser = async (parent, args, context) => {
 //actor
 const newActor = async (parent, args, context) => {
 	const { userId } = context;
-		if (!userId) throw Error('Please log in');
-
-
+	if (!userId) throw Error('Please log in');
 
 	const newActor = context.prisma.actor.create({
 		data: {
@@ -91,33 +86,36 @@ const newActor = async (parent, args, context) => {
 
 const updateActor = async (parent, args, context) => {
 	const { userId } = context;
-		if (!userId) throw Error('Please log in');
+	if (!userId) throw Error('Please log in');
 
+	console.log(args);
 
-	const actor = context.prisma.actor.update(
-		{ where: { id: args.id } },
-		{
-			data: {
-				...args,
-				postedBy: { connect: { id: userId } },
-			},
-		}
-	);
+	const actor = context.prisma.actor.update({
+		where: { id: args.id },
+		data: {
+			// ...args,
+			name: args.name,
+			img: args.img,
+			alt: args.alt,
+			imdb: args.imdb,
+			bio: args.bio,
+
+			postedBy: { connect: { id: userId } },
+		},
+	});
 
 	return actor;
 };
 
 const deleteActor = async (parent, args, context) => {
 	const { userId } = context;
-		if (!userId) throw Error('Please log in');
-
+	if (!userId) throw Error('Please log in');
 
 	const actor = context.prisma.actor.delete({ where: { id: args.id } });
 	return actor;
 };
 
 const deleteActors = async (parent, args, context) => {
-
 	const actors = context.prisma.actor.deleteMany();
 	return actors.count;
 };
@@ -125,8 +123,7 @@ const deleteActors = async (parent, args, context) => {
 //testimonial
 const newTestimonial = async (parent, args, context) => {
 	const { userId } = context;
-		if (!userId) throw Error('Please log in');
-
+	if (!userId) throw Error('Please log in');
 
 	const newTestimonial = context.prisma.testimonial.create({
 		data: {
@@ -139,25 +136,22 @@ const newTestimonial = async (parent, args, context) => {
 
 const updateTestimonial = async (parent, args, context) => {
 	const { userId } = context;
-		if (!userId) throw Error('Please log in');
+	if (!userId) throw Error('Please log in');
 
-
-	const testimonial = context.prisma.testimonial.update(
-		{ where: { id: args.id } },
-		{
-			data: {
-				...args,
-					postedBy: { connect: { id: userId } },
-			},
-		}
-	);
+	const testimonial = context.prisma.testimonial.update({
+		where: { id: args.id },
+		data: {
+			...args,
+			postedBy: { connect: { id: userId } },
+		},
+	});
 
 	return testimonial;
 };
 
 const deleteTestimonial = async (parent, args, context) => {
 	const { userId } = context;
-		if (!userId) throw Error('Please log in');
+	if (!userId) throw Error('Please log in');
 
 	const testimonial = context.prisma.testimonial.delete({
 		where: { id: args.id },

@@ -43,7 +43,7 @@ model Testimonial {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // id         Int    @id @default(autoincrement())
-  name        String
+  name        String @unique
   occupation  String
   testimonial String
   //focus needs to be reworked for FE

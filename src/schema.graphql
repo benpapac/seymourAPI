@@ -47,9 +47,10 @@ type Mutation {
 		): Testimonial!
 
 	updateTestimonial(
-		name: String!,
+		oldName: String!,
+		name: String,
 		occupation: String,
-		testimonial: String!
+		testimonial: String
 	): Testimonial!
 
 	deleteTestimonial( id: ID!): Testimonial!

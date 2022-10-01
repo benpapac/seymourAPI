@@ -49,5 +49,6 @@ module.exports = {
 	actors,
 	actor,
 	testimonials,
+	testimonial,
 	users,
 };

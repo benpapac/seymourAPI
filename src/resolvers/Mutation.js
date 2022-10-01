@@ -140,9 +140,11 @@ const updateTestimonial = async (parent, args, context) => {
 	if (!userId) throw Error('Please log in');
 
 	const testimonial = context.prisma.testimonial.update({
-		where: { id: context.headers.id },
+		where: { name: args.oldName },
 		data: {
-			...args,
+			name: args.name,
+			occupation: args.occupation,
+			testimonial: args.testimonial,
 			postedBy: { connect: { id: userId } },
 		},
 	});

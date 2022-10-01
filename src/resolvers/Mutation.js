@@ -90,7 +90,7 @@ const updateActor = async (parent, args, context) => {
 	if (!userId) throw Error('Please log in');
 
 	const actor = context.prisma.actor.update({
-		where: { name: args.oldName },
+		where: { id: args.updateActorId },
 		data: {
 			// ...args,
 			name: args.name,

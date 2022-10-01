@@ -28,7 +28,7 @@ type Mutation {
 		 ): Actor!
 		 
 	updateActor(
-		id: ID!
+		id: ID! @unique
 		name: String
 		img: String
 		alt: String

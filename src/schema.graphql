@@ -28,7 +28,7 @@ type Mutation {
 		 ): Actor!
 		 
 	updateActor(
-		id: ID! 
+		oldName: String!
 		name: String
 		img: String
 		alt: String

@@ -27,7 +27,7 @@ model Actor {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
   img  String
   alt  String
   imdb String

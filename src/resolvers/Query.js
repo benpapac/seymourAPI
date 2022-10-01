@@ -34,6 +34,13 @@ const testimonials = async (parent, args, context, info) => {
 	return testimonials;
 };
 
+const testimonial = async (parent, args, context, info) => {
+	const actor = await context.prisma.testimonial.findUnique({
+		where: { id: args.id },
+	});
+	return testimonial;
+};
+
 const users = async (parent, args, context, info) => {
 	return await context.prisma.user.findMany();
 };

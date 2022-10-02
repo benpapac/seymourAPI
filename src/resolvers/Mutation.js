@@ -111,7 +111,7 @@ const deleteActor = async (parent, args, context) => {
 	if (!userId) throw Error('Please log in');
 
 	const actor = context.prisma.actor.delete({
-		where: { id: context.headers.id },
+		where: { name: args.name },
 	});
 	return actor;
 };
@@ -157,7 +157,7 @@ const deleteTestimonial = async (parent, args, context) => {
 	if (!userId) throw Error('Please log in');
 
 	const testimonial = context.prisma.testimonial.delete({
-		where: { id: context.headers.id },
+		where: { name: args.name },
 	});
 	return testimonial;
 };

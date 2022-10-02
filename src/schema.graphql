@@ -19,6 +19,7 @@ type Mutation {
 	login(email: String!, password: String!): AuthPayload
 	updateUser(name: String, email: String, password: String): User!
 	deleteUser: User!
+	# consider refactoring arguments into Input types.
 	# actor
 	newActor(
 		name: String!,
@@ -37,7 +38,7 @@ type Mutation {
 		bio: String
 	): Actor!
 
-	deleteActor(id: ID! ): Actor!
+	deleteActor(name: String! ): Actor!
 	deleteActors: Int
 
 	#testimonial
@@ -54,7 +55,7 @@ type Mutation {
 		testimonial: String
 	): Testimonial!
 
-	deleteTestimonial( id: ID!): Testimonial!
+	deleteTestimonial( name: String!): Testimonial!
 }
 
 type User {

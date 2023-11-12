@@ -41,6 +41,23 @@ type Mutation {
 	deleteActor(name: String! ): Actor!
 	deleteActors: Int
 
+	#blog
+	newBlog(
+		date: String!
+		title: String!,
+		body: String!,
+	): Blog!
+
+	updateBlog(
+		date: String
+		title: String!
+		body: String
+	): Blog!
+
+	deleteBlog(
+		title: String!
+	): Blog!
+
 	#testimonial
 	newTestimonial(
 		name: String!,

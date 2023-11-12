@@ -11,6 +11,7 @@ const Mutation = require('./resolvers/Mutation');
 const User = require('./resolvers/User');
 const Actor = require('./resolvers/Actor');
 const Testimonial = require('./resolvers/Testimonial');
+const Blog = require('./resolvers/Blog');
 
 const prisma = new PrismaClient();
 
@@ -19,6 +20,7 @@ const resolvers = {
 	Mutation,
 	User,
 	Actor,
+	Blog,
 	Testimonial,
 };
 
@@ -34,7 +36,6 @@ const corsOptions = {
 };
 
 const server = new ApolloServer({
-	// typeDefs: fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8'),
 	typeDefs,
 	resolvers,
 	csrfPrevention: true,

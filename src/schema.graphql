@@ -8,6 +8,8 @@ type AuthPayload {
 type Query {
 	actors(skip: Int, take: Int, filter: String): [Actor!]!
 	actor(id: ID!): Actor!
+	blogs(skip: Int, take: Int, filter: String): [Blog!]!
+	blog(id: ID!): Blog!
 	testimonials(skip: Int, take: Int, filter: String): [Testimonial!]!
 	testimonial(id: ID!): Testimonial!
 	users: [User!]!
@@ -93,6 +95,13 @@ type Actor {
 	bio: String!
 
 	postedBy: User
+}
+
+type Blog {
+	id: ID!
+	date: String!
+	title: String!
+	body: String!
 }
 
 type Testimonial {

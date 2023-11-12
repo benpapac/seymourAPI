@@ -103,6 +103,8 @@ type Blog {
 	date: String!
 	title: String!
 	body: String!
+
+	postedBy: User
 }
 
 type Testimonial {

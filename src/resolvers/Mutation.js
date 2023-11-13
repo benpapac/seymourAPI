@@ -130,6 +130,7 @@ const newBlog = async (parent, args, context) => {
 	const newBlog = context.prisma.blog.create({
 		data: {
 			...args,
+			date: new Date(),
 			postedBy: { connect: { id: userId } }
 		}
 	});

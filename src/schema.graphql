@@ -45,7 +45,6 @@ type Mutation {
 
 	#blog
 	newBlog(
-		date: String!
 		title: String!,
 		body: String!,
 	): Blog!

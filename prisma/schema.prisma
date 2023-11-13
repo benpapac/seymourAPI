@@ -37,19 +37,19 @@ model Actor {
 
   //relational
   postedBy   User? @relation(fields: [postedById], references: [id])
-  postedById String?
+  postedById String? @db.ObjectId
 }
 
 
 model Blog {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  date String // maybe make this a DateTime
+  date DateTime // maybe make this a DateTime
   title String @unique
   body String
   // links String[]
   postedBy User? @relation(fields: [postedById], references: [id])
-  postedById String?
+  postedById String? @db.ObjectId
 }
 
 model Testimonial {
@@ -63,5 +63,5 @@ model Testimonial {
 
   //relational
   postedBy   User? @relation(fields: [postedById], references: [id])
-  postedById String?
+  postedById String? @db.ObjectId
 }

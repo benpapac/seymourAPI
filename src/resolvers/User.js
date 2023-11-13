@@ -1,5 +1,7 @@
 const actors = (parent, args, context) => {
-	return context.prisma.user.findUnique({ where: { id: parent.id } }).actors();
+	return context.prisma.user
+	.findUnique({ where: { id: parent.id } })
+	.actors();
 };
 
 const testimonials = (parent, args, context) => {
@@ -8,7 +10,14 @@ const testimonials = (parent, args, context) => {
 		.testimonials();
 };
 
+const blogs = (parent, args, context) => {
+	return context.prisma.user
+		.findUnique({ where: {id: parent.id} })
+		.blogs();
+}
+
 module.exports = {
 	actors,
-	testimonials,
+	blogs,
+	testimonials
 };

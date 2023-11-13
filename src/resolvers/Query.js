@@ -1,5 +1,4 @@
 const actors = async (parent, args, context, info) => {
-
 	const where = args.filter
 		? {
 				OR: [
@@ -15,10 +14,20 @@ const actors = async (parent, args, context, info) => {
 
 const actor = async (parent, args, context, info) => {
 	const actor = await context.prisma.actor.findUnique({
-		where: { id: args.id }
+		where: { id: args.id },
 	});
 	return actor;
+};
+
+const blogs = async (parent, args, context, info) => {
+	const blogs = await context.prisma.blog.findMany({});
+	return blogs;
 }
+
+const blog = async (parent, args, context, info) => {
+	const blogs = await context.prisma.blog.findUnique({where: {id: args.id}});
+	return blogs;
+};
 
 const testimonials = async (parent, args, context, info) => {
 	const where = args.filter
@@ -50,5 +59,7 @@ module.exports = {
 	actor,
 	testimonials,
 	testimonial,
+	blogs,
+	blog,
 	users,
 };

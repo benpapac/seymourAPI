@@ -21,6 +21,7 @@ model User {
   password     String
   actors       Actor[]
   testimonials Testimonial[]
+  blogs Blog[]
 }
 
 model Actor {
@@ -34,8 +35,20 @@ model Actor {
   bio  String
   //focus     String // need to plan how focuses will work. Think it'll be a FE deal.
 
-  //reational
+  //relational
   postedBy   User? @relation(fields: [postedById], references: [id])
+  postedById String?
+}
+
+
+model Blog {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  date String // maybe make this a DateTime
+  title String @unique
+  body String
+  // links String[]
+  postedBy User? @relation(fields: [postedById], references: [id])
   postedById String?
 }
 

@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const { actors } = require('./Query');
 const { secret, getUserId } = require('../utils');
 
+const PLEASE_LOG_IN_MESSAGE = 'Please log in.';
+
 //user
 const signup = async (parents, args, context) => {
 	const password = await bcrypt.hash(args.password, 10);
@@ -14,7 +16,6 @@ const signup = async (parents, args, context) => {
 	});
 
 	const secret = process.env.APP_SECRET;
-	console.log(secret);
 	const token = jwt.sign({ userId: user.id }, secret);
 
 	return {
@@ -43,7 +44,7 @@ const login = async (parent, args, context) => {
 
 const updateUser = async (parent, args, context) => {
 	const { userId } = context;
-	if (!userId) throw Error('Please log in');
+	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 	console.log(context.headers.id);
 
 	const user = await context.prisma.user.update({
@@ -57,7 +58,7 @@ const updateUser = async (parent, args, context) => {
 
 const deleteUser = async (parent, args, context) => {
 	const { userId } = context;
-	if (!userId) throw Error('Please log in');
+	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
 	const actors = await context.prisma.actor.deleteMany({
 		where: { postedBy: { id: userId } },
@@ -74,7 +75,7 @@ const deleteUser = async (parent, args, context) => {
 //actor
 const newActor = async (parent, args, context) => {
 	const { userId } = context;
-	if (!userId) throw Error('Please log in');
+	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
 	const newActor = context.prisma.actor.create({
 		data: {
@@ -87,7 +88,7 @@ const newActor = async (parent, args, context) => {
 
 const updateActor = async (parent, args, context) => {
 	const { userId } = context;
-	if (!userId) throw Error('Please log in');
+	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
 	const actor = context.prisma.actor.update({
 		where: { name: args.oldName },
@@ -108,7 +109,7 @@ const updateActor = async (parent, args, context) => {
 
 const deleteActor = async (parent, args, context) => {
 	const { userId } = context;
-	if (!userId) throw Error('Please log in');
+	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
 	const actor = context.prisma.actor.delete({
 		where: { name: args.name },
@@ -121,10 +122,51 @@ const deleteActors = async (parent, args, context) => {
 	return actors.count;
 };
 
+//blog
+const newBlog = async (parent, args, context) => {
+	const { userId } = context;
+	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
+
+	const newBlog = context.prisma.blog.create({
+		data: {
+			...args,
+			postedBy: { connect: { id: userId } }
+		}
+	});
+
+	return newBlog;
+};
+
+const updateBlog = async (parent, args, context) => {
+	const { userId } = context;
+	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
+
+	const updatedBlog = context.prisma.blog.update({
+		where: {title: args.oldTitle},
+		data: {
+			...args.newData,
+			postedBy: { connect: { id: userId } }
+		}
+	});
+
+	return updatedBlog;
+};
+
+const deleteBlog = async (parent, args, context) => {
+	const { userId } = context;
+	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
+
+	const deletedBlog = context.prisma.blog.delete({
+		where: {title: args.title}
+	});
+
+	return deletedBlog;
+};
+
 //testimonial
 const newTestimonial = async (parent, args, context) => {
 	const { userId } = context;
-	if (!userId) throw Error('Please log in');
+	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
 	const newTestimonial = context.prisma.testimonial.create({
 		data: {
@@ -137,7 +179,7 @@ const newTestimonial = async (parent, args, context) => {
 
 const updateTestimonial = async (parent, args, context) => {
 	const { userId } = context;
-	if (!userId) throw Error('Please log in');
+	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
 	const testimonial = context.prisma.testimonial.update({
 		where: { name: args.oldName },
@@ -154,7 +196,7 @@ const updateTestimonial = async (parent, args, context) => {
 
 const deleteTestimonial = async (parent, args, context) => {
 	const { userId } = context;
-	if (!userId) throw Error('Please log in');
+	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
 	const testimonial = context.prisma.testimonial.delete({
 		where: { name: args.name },
@@ -171,6 +213,9 @@ module.exports = {
 	updateActor,
 	deleteActor,
 	deleteActors,
+	newBlog,
+	updateBlog,
+	deleteBlog,
 	newTestimonial,
 	updateTestimonial,
 	deleteTestimonial,

@@ -8,6 +8,8 @@ type AuthPayload {
 type Query {
 	actors(skip: Int, take: Int, filter: String): [Actor!]!
 	actor(id: ID!): Actor!
+	blogs(skip: Int, take: Int, filter: String): [Blog!]!
+	blog(id: ID!): Blog!
 	testimonials(skip: Int, take: Int, filter: String): [Testimonial!]!
 	testimonial(id: ID!): Testimonial!
 	users: [User!]!
@@ -41,6 +43,23 @@ type Mutation {
 	deleteActor(name: String! ): Actor!
 	deleteActors: Int
 
+	#blog
+	newBlog(
+		date: String!
+		title: String!,
+		body: String!,
+	): Blog!
+
+	updateBlog(
+		date: String
+		title: String!
+		body: String
+	): Blog!
+
+	deleteBlog(
+		title: String!
+	): Blog!
+
 	#testimonial
 	newTestimonial(
 		name: String!,
@@ -65,6 +84,7 @@ type User {
 
 	testimonials: [Testimonial!]!
 	actors: [Actor!]!
+	blogs: [Blog!]!
 }
 
 type Actor {
@@ -74,6 +94,15 @@ type Actor {
 	alt: String
 	imdb: String
 	bio: String!
+
+	postedBy: User
+}
+
+type Blog {
+	id: ID!
+	date: String!
+	title: String!
+	body: String!
 
 	postedBy: User
 }

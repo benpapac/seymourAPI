@@ -25,9 +25,15 @@ const signup = async (parents, args, context) => {
 };
 
 const login = async (parent, args, context) => {
-	const user = await context.prisma.user.findUnique({
-		where: { email: args.email },
-	});
+	let user;
+
+	try {
+		user = await context.prisma.user.findUnique({
+			where: { email: args.email },
+		});
+	} catch (e) {
+		throw Error({message: 'No such user'});
+	}
 
 	const valid = await bcrypt.compare(args.password, user.password);
 	if (!valid) {
@@ -45,31 +51,39 @@ const login = async (parent, args, context) => {
 const updateUser = async (parent, args, context) => {
 	const { userId } = context;
 	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
-	console.log(context.headers.id);
 
-	const user = await context.prisma.user.update({
-		where: { id: userId },
-		data: {
-			...args,
-		},
-	});
-	return user;
+	try {
+		const user = await context.prisma.user.update({
+			where: { id: userId },
+			data: {
+				...args,
+			},
+		});
+		return user;
+	} catch (e) {
+		return e.message;
+	}
 };
 
 const deleteUser = async (parent, args, context) => {
 	const { userId } = context;
 	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
-	const actors = await context.prisma.actor.deleteMany({
-		where: { postedBy: { id: userId } },
-	});
+	try {
+		const actors = await context.prisma.actor.deleteMany({
+			where: { postedBy: { id: userId } },
+		});
+	
+		const testimonials = await context.prisma.testimonial.deleteMany({
+			where: { postedBy: { id: userId } },
+		});
+		const user = await context.prisma.user.delete({ where: { id: userId } });
+	
+		return [user, testimonials, actors];
+	} catch(e) {
+		return e.message;
+	}
 
-	const testimonials = await context.prisma.testimonial.deleteMany({
-		where: { postedBy: { id: userId } },
-	});
-	const user = await context.prisma.user.delete({ where: { id: userId } });
-
-	return [user, testimonials, actors];
 };
 
 //actor
@@ -77,49 +91,64 @@ const newActor = async (parent, args, context) => {
 	const { userId } = context;
 	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
-	const newActor = context.prisma.actor.create({
+	try {
+		const newActor = context.prisma.actor.create({
 		data: {
 			...args,
 			postedBy: { connect: { id: userId } },
-		},
-	});
-	return newActor;
+			},
+		});
+		return newActor;
+	} catch(e) {
+		return e.message;
+	}
 };
 
 const updateActor = async (parent, args, context) => {
 	const { userId } = context;
 	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
-	const actor = context.prisma.actor.update({
-		where: { name: args.oldName },
-		data: {
-			// ...args,
-			name: args.name,
-			img: args.img,
-			alt: args.alt,
-			imdb: args.imdb,
-			bio: args.bio,
-
-			postedBy: { connect: { id: userId } },
-		},
-	});
-
-	return actor;
+	try {
+		const actor = context.prisma.actor.update({
+			where: { name: args.oldName },
+			data: {
+				// ...args,
+				name: args.name,
+				img: args.img,
+				alt: args.alt,
+				imdb: args.imdb,
+				bio: args.bio,
+	
+				postedBy: { connect: { id: userId } },
+			},
+		});
+	
+		return actor;
+	} catch(e) {
+		return e.message;
+	}
 };
 
 const deleteActor = async (parent, args, context) => {
 	const { userId } = context;
 	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
-	const actor = context.prisma.actor.delete({
-		where: { name: args.name },
-	});
-	return actor;
+	try {
+		const actor = context.prisma.actor.delete({
+			where: { name: args.name },
+		});
+		return actor;
+	} catch(e) {
+		return e.message;
+	}
 };
 
 const deleteActors = async (parent, args, context) => {
-	const actors = context.prisma.actor.deleteMany();
-	return actors.count;
+	try {
+		const actors = context.prisma.actor.deleteMany();
+	} catch(e) {
+		return actors.count;
+	}
 };
 
 //blog
@@ -127,30 +156,41 @@ const newBlog = async (parent, args, context) => {
 	const { userId } = context;
 	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
-	const newBlog = context.prisma.blog.create({
-		data: {
-			...args,
-			date: new Date(),
-			postedBy: { connect: { id: userId } }
-		}
-	});
-
-	return newBlog;
+	try {
+		const newBlog = context.prisma.blog.create({
+			data: {
+				...args,
+				date: new Date(),
+				postedBy: { connect: { id: userId } },
+			},
+		});
+	
+		return newBlog;
+	} catch(e) {
+		return e.message;
+	}
 };
 
 const updateBlog = async (parent, args, context) => {
 	const { userId } = context;
 	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
-	const updatedBlog = context.prisma.blog.update({
-		where: {title: args.oldTitle},
-		data: {
-			...args.newData,
-			postedBy: { connect: { id: userId } }
-		}
-	});
+	try {
+		const updatedBlog = context.prisma.blog.update({
+			where: { title: args.oldTitle },
+			data: {
+				title: args.title,
+				body: args.body,
+				date: new Date(),
+				postedBy: { connect: { id: userId } },
+			},
+		});
+	
+		return updatedBlog;
+	} catch(e) {
+		return e.message;
+	}
 
-	return updatedBlog;
 };
 
 const deleteBlog = async (parent, args, context) => {
@@ -158,7 +198,7 @@ const deleteBlog = async (parent, args, context) => {
 	if (!userId) throw Error(PLEASE_LOG_IN_MESSAGE);
 
 	const deletedBlog = context.prisma.blog.delete({
-		where: {title: args.title}
+		where: { title: args.title },
 	});
 
 	return deletedBlog;

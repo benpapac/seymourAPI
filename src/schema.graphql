@@ -50,8 +50,8 @@ type Mutation {
 	): Blog!
 
 	updateBlog(
-		date: String
-		title: String!
+		oldTitle: String!
+		title: String
 		body: String
 	): Blog!
 
@@ -99,7 +99,7 @@ type Actor {
 
 type Blog {
 	id: ID!
-	date: String!
+	# date: String
 	title: String!
 	body: String!
 

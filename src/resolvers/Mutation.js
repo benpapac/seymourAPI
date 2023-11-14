@@ -169,7 +169,6 @@ const newBlog = async (parent, args, context) => {
 	} catch(e) {
 		return e.message;
 	}
-
 };
 
 const updateBlog = async (parent, args, context) => {

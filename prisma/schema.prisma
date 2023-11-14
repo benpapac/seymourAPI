@@ -44,7 +44,8 @@ model Actor {
 model Blog {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  date DateTime? // maybe make this a DateTime
+
+  date DateTime?
   title String @unique
   body String
   // links String[]
